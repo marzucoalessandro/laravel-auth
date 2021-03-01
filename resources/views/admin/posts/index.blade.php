@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>Posts for Admin</h1>
-
+<a href="{{route ('admin.posts.create')}}" class="btn btn-success">Create a new post</a>
 <table class="table">
   <thead>
     <tr>
@@ -22,8 +22,13 @@
       <td>{{$post->slug}}</td>
       <td>
         <a href="{{route ('admin.posts.show', ['post'=> $post->slug])}}" class="btn btn-primary">View</a>
-        <a href="#" class="btn btn-warning">Edit</a>
-        <a href="#" class="btn btn-danger">Delete</a>
+        <a href="{{route ('admin.posts.edit', ['post'=> $post->slug])}}" class="btn btn-warning">Edit</a>
+
+        <form class="" action="{{route('admin.posts.destroy', ['post'=> $post->slug] )}}" method="post">
+          @csrf
+          @method('DELETE')
+          <button type="submit" name="button" class="btn btn-danger">Delete</button>
+        </form>
       </td>
     </tr>
     @endforeach

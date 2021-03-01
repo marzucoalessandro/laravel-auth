@@ -27,7 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+      return view('admin.posts.create');
     }
 
     /**
@@ -38,7 +38,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+          'title'=>'required',
+          'body'=> 'required'
+        ]);
+
+        Post::create($validate);
+
+        $new_post = Post::orderBy('id', 'desc')->first();
+
+        return redirect()->route('admin.posts.index', compact('new_post'));
+
+
     }
 
     /**
@@ -58,9 +69,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -70,9 +81,16 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $validate = $request->validate([
+          'title' => 'required',
+          'body' => 'required'
+        ]);
+
+
+        $post->update($validate);
+        return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -81,8 +99,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('admin.posts.index');
     }
 }
