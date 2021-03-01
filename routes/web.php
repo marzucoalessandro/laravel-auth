@@ -18,7 +18,7 @@ Route::get('about', 'PageController@about')->name('about');
 Route::get('contacts', 'PageController@contacts')->name('contacts');
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 
 // Route x admin
